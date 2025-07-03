@@ -3,14 +3,22 @@
 
 name: first workflow
 on: push # 이벤트 트리거
-jobs: # jobs:
+jobs:
   build:
     runs-on: ubuntu-latest
     steps: # step 정의
-      - name: Hello World # step의 이름
-        run: echo "Hello, World!" # run : <cli 명령어>
-
+      #레포지토리 -> 가상 환경으로 코드 가져오기
       - name: Checkout Code
         uses: actions/checkout@v4 # actions -> 재사용 가능한 작업
+
+        #노드 버전을 맞춰야 할 경우 가상환경에 노드를 추가 설치
+      - name: install nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: install deps
-        run: npm ci
+        run: npm ci # clean install -> package-lock.json
+
+      - name: run build
+        run: npm run build
