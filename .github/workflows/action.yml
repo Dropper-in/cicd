@@ -2,12 +2,18 @@
 #
 
 name: first workflow
-on: push # 이벤트 트리거
+on: # 이벤트 트리거
+  push:
+    branches: [main, develop]
+    paths:
+      - "src/**" # src/** 하위 파일이 변경되면 워크플로우 실행
+      - "!docs/**" # !<파일명> | <디렉토리..> : 특정 파일 및 디렉토리는 워크플로우 실행 제외
+
 jobs: # npm run lint
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout node
+      - name: checkout code
         uses: actions/checkout@v4
 
       - name: install nodejs
