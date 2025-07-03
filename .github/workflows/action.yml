@@ -32,6 +32,9 @@ jobs: # npm run lint
         with:
           node-version: "22"
 
+      - name: install dependencies
+        run: npm ci
+
       - name: run test
         run: npm run test
 
