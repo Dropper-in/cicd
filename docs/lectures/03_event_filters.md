@@ -24,7 +24,6 @@ on:
 - `edited`: 브랜치나 태그가 편집될 때
 - `opened`: 브랜치나 태그가 열릴 때
 - `synchronize`: 브랜치에 새로운 커밋이 푸시될 때 -->
-
 ### 2. Pull Request 이벤트
 
 Pull Request와 관련된 모든 활동에서 발생합니다.

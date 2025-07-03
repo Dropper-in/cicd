@@ -1,19 +1,8 @@
 name: first workflow
-on: # 이벤트 트리거
-  pull_request:
-    branches:
-      - main
-  # push:
-  #   branches: [main, develop]
-  # paths:
-  #   - "src/**" # src/** 하위 파일이 변경되면 워크플로우 실행
-  #   - "package.json"
-  #   - "!docs/**" # !<파일명> | <디렉토리..> : 특정 파일 및 디렉토리는 워크플로우 실행 제외
-
+on: push
 jobs:
   # job 이름
   # npm run lint
-
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -52,24 +41,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # build job 이전 lint job이 선행되어야 함
-    # 순차적으로 실행이 되어야 함
+    # builb job 이전에 lint job이 선행되어야함.
+    # 순차적으로 실행이 되어야함
     # 단일 선행작업 -> needs: <job name>
-    # qhrtn 선행작업 -> needs: [<job name 1>, <job name 2>...]
+    # 복수 선행작업 -> needs: [ <job name 1> , <job name 2> ... ]
     needs: [lint, test]
-    steps: # step 정의
-      #레포지토리 -> 가상 환경으로 코드 가져오기
+    steps:
+      # 레포지토리 -> 가상환경으로 코드 가져오기
       - name: Checkout Code
-        uses: actions/checkout@v4 # actions -> 재사용 가능한 작업
+        uses: actions/checkout@v4 # actions -> 재사용가능한 작업
 
-        #노드 버전을 맞춰야 할 경우 가상환경에 노드를 추가 설치
+        # 노드 버전을 맞춰야할 경우에 가상환경에 노드를 추가 설치
       - name: install nodejs
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
       - name: install deps
-        run: npm ci # clean install -> package-lock.json
+        run: npm ci # ci -> clean install -> package-lock.json
 
       - name: run build
         run: npm run build
